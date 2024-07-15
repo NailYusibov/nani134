@@ -1,37 +1,39 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.service.UserService;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        UserDao dao = new UserDaoJDBCImpl();
+        UserService userSer = new UserServiceImpl();
 
 
-        dao.createUsersTable();
 
-        dao.saveUser("Nail", "Yusibov", (byte) 36);
-        dao.saveUser("Emil", "Yusibov", (byte) 38);
-        dao.saveUser("Arzu", "Yusibova", (byte) 21);
-        dao.saveUser("Punkhan", "Mamedova", (byte) 30);
+        userSer.createUsersTable();
 
 
-        List<User> users = dao.getAllUsers();
+        userSer.saveUser("Nail", "Yusibov", (byte) 36);
+        userSer.saveUser("Emil", "Yusibov", (byte) 38);
+        userSer.saveUser("Arzu", "Yusibova", (byte) 21);
+        userSer.saveUser("Punkhan", "Mamedova", (byte) 30);
+
+
+        List<User> users = userSer.getAllUsers();
         System.out.println("All users:");
         for (User user : users) {
             System.out.println(user);
         }
 
-        dao.removeUserById(1);
-        users = dao.getAllUsers();
+        userSer.removeUserById(1);
+        users = userSer.getAllUsers();
         for (User user : users) {
             System.out.println(user);
         }
-        dao.cleanUsersTable();
-        dao.dropUsersTable();
+        userSer.cleanUsersTable();
+        userSer.dropUsersTable();
     }
 }
 
