@@ -4,13 +4,11 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
-
     }
 
     @Override
@@ -23,8 +21,7 @@ public class UserDaoHibernateImpl implements UserDao {
                     "name VARCHAR(50), " +
                     "lastName VARCHAR(50), " +
                     "age TINYINT)";
-            Query query = session.createSQLQuery(sql);
-            query.executeUpdate();
+            session.createSQLQuery(sql).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -38,14 +35,12 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String sql = "DROP TABLE IF EXISTS users";
-            Query query = session.createSQLQuery(sql);
-            query.executeUpdate();
+            session.createSQLQuery(sql).executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -56,7 +51,6 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = new User(name, lastName, age);
             session.save(user);
             transaction.commit();
-            System.out.println("User with name – " + name + " added to database");
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
